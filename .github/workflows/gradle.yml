@@ -16,6 +16,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env :
+      working-directory : ./server
 
     steps:
       - uses: actions/checkout@v3
@@ -32,10 +34,15 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
+          # Path to the root directory of the build
+          build-root-directory: ./server
+          # Path to the Gradle executable
+          gradle-executable: ./server
 
       # build한 후 프로젝트를 압축합니다.
       - name: Make zip file
         run: zip -r ./practice-deploy.zip .
+        working-directory: ${{ env.working-directory }}
         shell: bash
 
       # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
@@ -49,7 +56,7 @@ jobs:
 
       # 압축한 프로젝트를 S3로 전송합니다.
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./practice-deploy.zip s3://$S3_BUCKET_NAME/practice-deploy.zip
+        run: aws s3 cp --region ap-northeast-2 ./server/practice-deploy.zip s3://$S3_BUCKET_NAME/practice-deploy.zip
 
       # CodeDeploy에게 배포 명령을 내립니다.
       - name: Code Deploy
