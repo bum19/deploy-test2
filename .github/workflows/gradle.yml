@@ -45,7 +45,7 @@ jobs:
           # Path to the root directory of the build
           build-root-directory: ./server
           # Path to the Gradle executable
-          gradle-executable: ./server
+          #gradle-executable: ./server
 
       # build한 후 프로젝트를 압축합니다.
       - name: Make zip file
