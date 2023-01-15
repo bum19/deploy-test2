@@ -63,5 +63,5 @@ jobs:
         run: >
           aws deploy create-deployment --application-name main_002
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name be-0-name-group
+          --deployment-group-name main_002_jbscjw
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-deploy.zip
